@@ -38,16 +38,20 @@ impl From<usize> for Rank {
     }
 }
 
-#[test]
-pub fn test_conversions() {
-    assert_eq!(Rank::First as usize, 0);
-    assert_eq!(Rank::First, Rank::from(0));
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-#[test]
-pub fn test_rank_above_and_below() {
-    assert_eq!(Rank::First.up(), Rank::Second);
-    assert_eq!(Rank::Eighth.down(), Rank::Seventh);
-    assert_eq!(Rank::First.down(), Rank::Eighth);
-    assert_eq!(Rank::Eighth.up(), Rank::First);
+    #[test]
+    pub fn test_conversions() {
+        assert_eq!(Rank::First as usize, 0);
+        assert_eq!(Rank::First, Rank::from(0));
+    }
+    #[test]
+    pub fn test_rank_above_and_below() {
+        assert_eq!(Rank::First.up(), Rank::Second);
+        assert_eq!(Rank::Eighth.down(), Rank::Seventh);
+        assert_eq!(Rank::First.down(), Rank::Eighth);
+        assert_eq!(Rank::Eighth.up(), Rank::First);
+    }
 }

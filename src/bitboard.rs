@@ -25,10 +25,9 @@ impl From<Square> for Bitboard {
 
 #[cfg(test)]
 mod tests {
-    use crate::bitboard::{Bitboard, EMPTY};
+    use super::*;
     use crate::file::File;
     use crate::rank::Rank;
-    use crate::square::Square;
 
     #[test]
     fn test_bitboard_creation() {

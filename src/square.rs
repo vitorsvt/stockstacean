@@ -22,21 +22,23 @@ impl Square {
     }
 }
 
-#[test]
-fn test_square_from_pos() {
-    let a2 = Square::make(File::A, Rank::Second);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    assert_eq!(a2.0, 8);
-}
-
-#[test]
-fn test_square_file_and_rank() {
-    for rank in 0..8 {
-        for file in 0..8 {
-            let square = Square::make(File::from(file), Rank::from(rank));
-
-            assert_eq!(square.file() as usize, file);
-            assert_eq!(square.rank() as usize, rank);
+    #[test]
+    fn test_square_from_pos() {
+        let a2 = Square::make(File::A, Rank::Second);
+        assert_eq!(a2.0, 8);
+    }
+    #[test]
+    fn test_square_file_and_rank() {
+        for rank in 0..8 {
+            for file in 0..8 {
+                let square = Square::make(File::from(file), Rank::from(rank));
+                assert_eq!(square.file() as usize, file);
+                assert_eq!(square.rank() as usize, rank);
+            }
         }
     }
 }

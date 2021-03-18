@@ -38,16 +38,21 @@ impl From<usize> for File {
     }
 }
 
-#[test]
-pub fn test_conversions() {
-    assert_eq!(File::A as usize, 0);
-    assert_eq!(File::A, File::from(0));
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-#[test]
-pub fn test_file_left_and_right() {
-    assert_eq!(File::A.right(), File::B);
-    assert_eq!(File::H.left(), File::G);
-    assert_eq!(File::A.left(), File::H);
-    assert_eq!(File::H.right(), File::A);
+    #[test]
+    pub fn test_conversions() {
+        assert_eq!(File::A as usize, 0);
+        assert_eq!(File::A, File::from(0));
+    }
+
+    #[test]
+    pub fn test_file_left_and_right() {
+        assert_eq!(File::A.right(), File::B);
+        assert_eq!(File::H.left(), File::G);
+        assert_eq!(File::A.left(), File::H);
+        assert_eq!(File::H.right(), File::A);
+    }
 }
