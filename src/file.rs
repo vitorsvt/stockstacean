@@ -1,4 +1,4 @@
-// Files (vertical lines) of the board
+/// Files (vertical lines) of the board
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
 pub enum File {
     A,
@@ -12,12 +12,12 @@ pub enum File {
 }
 
 impl File {
-    // The file to the right. Wraps around.
+    /// The file to the right. Wraps around.
     pub fn right(&self) -> File {
         File::from(*self as usize + 1)
     }
 
-    // The file to the left. Wraps around.
+    /// The file to the left. Wraps around.
     pub fn left(&self) -> File {
         File::from((*self as usize).wrapping_sub(1))
     }

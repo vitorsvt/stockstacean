@@ -1,21 +1,21 @@
 use crate::file::File;
 use crate::rank::Rank;
 
-// A square on the board
+/// A square on the board
 pub struct Square(pub u8);
 
 impl Square {
-    // Create a square from a file and a rank
+    /// Create a square from a file and a rank
     pub fn from_pos(file: File, rank: Rank) -> Square {
         Square((rank as u8) << 3 ^ (file as u8))
     }
 
-    // File of the square
+    /// File of the square
     pub fn file(&self) -> File {
         File::from((self.0 & 7) as usize)
     }
 
-    // Rank of the square
+    /// Rank of the square
     pub fn rank(&self) -> Rank {
         Rank::from((self.0 >> 3) as usize)
     }

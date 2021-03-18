@@ -1,4 +1,4 @@
-// Ranks (horizontal lines) of the board
+/// Ranks (horizontal lines) of the board
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
 pub enum Rank {
     First,
@@ -12,12 +12,12 @@ pub enum Rank {
 }
 
 impl Rank {
-    // The rank above. Wraps around.
+    /// The rank above. Wraps around.
     pub fn up(&self) -> Rank {
         Rank::from(*self as usize + 1)
     }
 
-    // The rank below. Wraps around.
+    /// The rank below. Wraps around.
     pub fn down(&self) -> Rank {
         Rank::from((*self as usize).wrapping_sub(1))
     }
