@@ -1,6 +1,6 @@
 // Ranks (horizontal lines) of the board
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
-enum Rank {
+pub enum Rank {
     First,
     Second,
     Third,

@@ -1,6 +1,6 @@
 // Files (vertical lines) of the board
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
-enum File {
+pub enum File {
     A,
     B,
     C,
