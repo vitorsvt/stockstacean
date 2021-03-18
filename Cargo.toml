@@ -1,5 +1,5 @@
 [package]
-name = "chess"
+name = "stockstacean"
 version = "0.1.0"
 authors = ["Vitor Silvestri <vitorsilvestri1@gmail.com>"]
 edition = "2018"
