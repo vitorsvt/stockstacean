@@ -1,5 +1,5 @@
-#[derive(Debug, Eq, PartialEq)]
-enum Piece {
+#[derive(Debug, Eq, PartialEq, Copy, Clone)]
+pub enum Piece {
     Pawn,
     Knight,
     Bishop,
@@ -7,6 +7,15 @@ enum Piece {
     Queen,
     King,
 }
+
+pub const PIECES: [Piece; 6] = [
+    Piece::Pawn,
+    Piece::Knight,
+    Piece::Bishop,
+    Piece::Rook,
+    Piece::Queen,
+    Piece::King,
+];
 
 impl From<usize> for Piece {
     fn from(value: usize) -> Self {
