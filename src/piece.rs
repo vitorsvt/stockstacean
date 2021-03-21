@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 pub enum Piece {
     Pawn,
@@ -26,6 +28,22 @@ impl From<usize> for Piece {
             3 => Piece::Rook,
             4 => Piece::Queen,
             _ => Piece::King,
+        }
+    }
+}
+
+impl TryFrom<char> for Piece {
+    type Error = &'static str;
+
+    fn try_from(value: char) -> Result<Self, Self::Error> {
+        match value {
+            'p' | 'P' => Ok(Piece::Pawn),
+            'n' | 'N' => Ok(Piece::Knight),
+            'b' | 'B' => Ok(Piece::Bishop),
+            'r' | 'R' => Ok(Piece::Rook),
+            'q' | 'Q' => Ok(Piece::Queen),
+            'k' | 'K' => Ok(Piece::King),
+            _ => Err("Invalid char supplied."),
         }
     }
 }

@@ -4,6 +4,7 @@ use crate::file::File;
 use crate::piece::{Piece, PIECES};
 use crate::rank::Rank;
 use crate::square::Square;
+use std::convert::TryInto;
 
 // The board state, represented by multiple bitboards
 #[derive(Debug)]
@@ -60,63 +61,16 @@ impl Board {
         let mut board: Board = Default::default();
 
         for symbol in symbols.chars() {
-            match symbol {
-                '/' => {
-                    rank = rank.down();
-                    file = File::A;
-                }
-                '1'..='8' => {
-                    file = File::from(file as usize + symbol as usize);
-                }
-                'p' => {
-                    board.set(Piece::Pawn, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'P' => {
-                    board.set(Piece::Pawn, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                'n' => {
-                    board.set(Piece::Knight, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'N' => {
-                    board.set(Piece::Knight, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                'b' => {
-                    board.set(Piece::Bishop, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'B' => {
-                    board.set(Piece::Bishop, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                'r' => {
-                    board.set(Piece::Rook, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'R' => {
-                    board.set(Piece::Rook, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                'q' => {
-                    board.set(Piece::Queen, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'Q' => {
-                    board.set(Piece::Queen, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                'k' => {
-                    board.set(Piece::King, Color::Black, Square::make(file, rank));
-                    file = file.right();
-                }
-                'K' => {
-                    board.set(Piece::King, Color::White, Square::make(file, rank));
-                    file = file.right();
-                }
-                _ => return Err("Invalid FEN string supplied."),
+            if symbol == '/' {
+                rank = rank.down();
+                file = File::A;
+            } else if ('1'..'9').contains(&symbol) {
+                file = File::from(file as usize + symbol as usize);
+            } else if let Ok(piece) = symbol.try_into() {
+                board.set(piece, symbol.into(), Square::make(file, rank));
+                file = file.right();
+            } else {
+                return Err("Invalid FEN string supplied.");
             }
         }
         Ok(board)

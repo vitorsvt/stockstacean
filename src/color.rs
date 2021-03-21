@@ -18,6 +18,16 @@ impl Not for Color {
     }
 }
 
+impl From<char> for Color {
+    fn from(value: char) -> Self {
+        if value.is_uppercase() {
+            Color::White
+        } else {
+            Color::Black
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
