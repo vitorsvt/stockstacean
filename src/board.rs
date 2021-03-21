@@ -5,8 +5,9 @@ use crate::piece::{Piece, PIECES};
 use crate::rank::Rank;
 use crate::square::Square;
 use std::convert::TryInto;
+use std::fmt;
 
-// The board state, represented by multiple bitboards
+/// The board state, represented by multiple bitboards
 #[derive(Debug)]
 pub struct Board {
     pieces: [Bitboard; 6],
@@ -14,19 +15,19 @@ pub struct Board {
 }
 
 impl Board {
-    // Set a piece on the board
+    /// Set a piece on the board
     pub fn set(&mut self, piece: Piece, color: Color, square: Square) {
         self.pieces[piece as usize].set(square);
         self.colors[color as usize].set(square);
     }
 
-    // Unset a piece on the board
+    /// Unset a piece on the board
     pub fn unset(&mut self, piece: Piece, color: Color, square: Square) {
         self.pieces[piece as usize].unset(square);
         self.colors[color as usize].unset(square);
     }
 
-    // Get the piece at a specific square on the board
+    /// Get the piece at a specific square on the board
     pub fn piece_on(&self, square: Square) -> Option<Piece> {
         let square_bitboard = Bitboard::from(square);
 
@@ -38,7 +39,7 @@ impl Board {
         None
     }
 
-    // Get the color at a specific square on the board
+    /// Get the color at a specific square on the board
     pub fn color_on(&self, square: Square) -> Option<Color> {
         let square_bitboard = Bitboard::from(square);
 
@@ -51,7 +52,7 @@ impl Board {
         }
     }
 
-    // Creates a board from a FEN string
+    /// Creates a board from a FEN string
     pub fn from_fen(fen: &str) -> Result<Board, &'static str> {
         let splitted: Vec<&str> = fen.split(' ').collect();
         let symbols = splitted[0];
@@ -84,6 +85,35 @@ impl Default for Board {
             pieces: [EMPTY; 6],
             colors: [EMPTY; 2],
         }
+    }
+}
+
+impl fmt::Display for Board {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut string: String = "".to_owned();
+
+        for rank in (0..8).rev() {
+            for file in 0..8 {
+                let square = Square::make(file.into(), rank.into());
+
+                if let Some(piece) = self.piece_on(square) {
+                    string.push(if self.color_on(square) == Some(Color::Black) {
+                        char::from(piece)
+                    } else {
+                        // to_uppercase returns an iterator
+                        // next / unwrap may not be the best practice
+                        char::from(piece).to_uppercase().next().unwrap()
+                    });
+                } else {
+                    string.push('.');
+                }
+            }
+            if rank != 0 {
+                string.push('\n');
+            }
+        }
+
+        write!(f, "{}", string)
     }
 }
 
