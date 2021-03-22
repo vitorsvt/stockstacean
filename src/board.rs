@@ -12,6 +12,7 @@ use std::fmt;
 pub struct Board {
     pieces: [Bitboard; 6],
     colors: [Bitboard; 2],
+    turn: Color,
 }
 
 impl Board {
@@ -52,6 +53,30 @@ impl Board {
         }
     }
 
+    /// XOR operation on all bitboards
+    fn xor(&mut self, piece: Piece, color: Color, bitboard: Bitboard) {
+        self.pieces[piece as usize].0 ^= bitboard.0;
+        self.colors[color as usize].0 ^= bitboard.0;
+    }
+
+    /// Move a piece on the board
+    pub fn make_move(&mut self, source: Square, destination: Square) {
+        let source_bitboard = Bitboard::from(source);
+        let destination_bitboard = Bitboard::from(destination);
+
+        let destination_piece = self.piece_on(destination);
+
+        if let Some(piece_moved) = self.piece_on(source) {
+            self.xor(piece_moved, self.turn, source_bitboard);
+            self.xor(piece_moved, self.turn, destination_bitboard);
+            if let Some(piece_captured) = destination_piece {
+                self.xor(piece_captured, !self.turn, destination_bitboard);
+            }
+        }
+
+        self.turn = !self.turn;
+    }
+
     /// Creates a board from a FEN string
     pub fn from_fen(fen: &str) -> Result<Board, &'static str> {
         let splitted: Vec<&str> = fen.split(' ').collect();
@@ -84,6 +109,7 @@ impl Default for Board {
         Board {
             pieces: [EMPTY; 6],
             colors: [EMPTY; 2],
+            turn: Color::White,
         }
     }
 }

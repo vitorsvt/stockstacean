@@ -1,7 +1,7 @@
 use crate::square::Square;
 
 /// Each bit represents a square on the board
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Bitboard(pub u64);
 pub const EMPTY: Bitboard = Bitboard(0);
 
